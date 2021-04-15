@@ -2,13 +2,28 @@ import { expect, server, BASE_URL } from './setup';
 // import { createTables, insertIntoTables } from '../src/utils/queryFunctions';
 
 describe('Messages', () => {
-    /* it('initialize database', (done) => {
+    /* it('initialize database', done => {
         (async () => {
             await createTables();
             await insertIntoTables();
         })();
         done();
     }); */
+
+    // it('gets messages page', done => {
+    //     server
+    //         .get(`${BASE_URL}/messages`)
+    //         .expect(200)
+    //         .end((err, res) => {
+    //             expect(res.status).to.equal(200);
+    //             expect(res.body.messages).to.be.instanceof(Array);
+    //             res.boby.messages.forEach((m) => {
+    //                 expect(m).to.have.property('name');
+    //                 expect(m).to.have.property('message');
+    //             });
+    //             done();
+    //         });
+    // });
 
     it('posts messages', done => {
         const data = { name: 'some name', message: 'new message' };
@@ -22,22 +37,7 @@ describe('Messages', () => {
                 res.body.messages.forEach((m) => {
                     expect(m).to.have.property('id');
                     expect(m).to.have.property('name', data.name);
-                    expect(m).to.have.property('message', data.message);
-                });
-                done();
-            });
-    });
-
-    it('gets messages page', done => {
-        server
-            .get(`${BASE_URL}/messages`)
-            .expect(200)
-            .end((err, res) => {
-                expect(res.status).to.equal(200);
-                expect(res.body.messages).to.be.instanceof(Array);
-                res.boby.messages.forEach((m) => {
-                    expect(m).to.have.property('name');
-                    expect(m).to.have.property('message');
+                    expect(m).to.have.property('message', `SAYS: ${data.message}`);
                 });
                 done();
             });
