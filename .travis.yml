@@ -2,6 +2,7 @@ language: node_js
 env:
   global:
   - CC_TEST_REPORTER_ID=aed8b3977368284f7e0c9a0a2833a838668e05d39184d6e8812786f0a8098f4d
+  - TEST_ENV_VARIABLE="Environment variable is coming across"
 matrix:
   include:
   - node_js: '12'
