@@ -1,7 +1,7 @@
 import {
-    dropTables,
+    /* dropTables, */
     createTables,
-    insertIntoTables
+    insertIntoTables,
 } from '../src/utils/queryFunctions';
 
 before(async () => {
@@ -9,6 +9,6 @@ before(async () => {
     await insertIntoTables();
 });
 
-after(async () => {
+/* after(async () => {
     await dropTables();
-});
+}); */
