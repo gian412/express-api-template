@@ -1,32 +1,39 @@
 language: node_js
 env:
   global:
-    - CC_TEST_REPORTER_ID=aed8b3977368284f7e0c9a0a2833a838668e05d39184d6e8812786f0a8098f4d
+  - CC_TEST_REPORTER_ID=aed8b3977368284f7e0c9a0a2833a838668e05d39184d6e8812786f0a8098f4d
 matrix:
   include:
   - node_js: '12'
 cache:
-  directories: [node_modules]
-install:
-  yarn
+  directories:
+  - node_modules
+install: yarn
 after_success: yarn coverage
 before_script:
-  - psql -c 'create database testdb;' -U postgres
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+- psql -c 'create database testdb;' -U postgres
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
 script:
-  - yarn test
+- yarn test
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESUL
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESUL"
 services:
-  - postgresql
+- postgresql
 addons:
-  postgresql: "10"
+  postgresql: '10'
   apt:
     packages:
     - postgresql-10
     - postgresql-client-10
 before_install:
-  - sudo cp /etc/postgresql/{9.6,10}/main/pg_hba.conf
-  - sudo /etc/init.d/postgresql restart
+- sudo cp /etc/postgresql/{9.6,10}/main/pg_hba.conf
+- sudo /etc/init.d/postgresql restart
+deploy:
+  provider: heroku
+  app:
+    master: try-express-api
+  api_key:
+    secure: mATrXwTaIryB6FBbym0cdtAH1SG75jW55p/yEMHVuw+S3nuKgYf7lMC132yHRIwr2R2QhUvyHPMm9yKI7m/ibiNnpjLBRuvQEC7wrWATNFuoVXPB8SRd+RKw3LQn7fDoV8okeAPp0NXcQfdjznh2Bkndn+rt6OXPN+KFjszAYRBTrAYi0VomkydnFNMt2TuxuZYPNZmwlZN6/4xhp9qIzgVLQM0u7XDFvyJp66bpdQI6p+/duBj5IzIoyQVaOGFadiRxVd2Vq/wyipPbdCfWfkUefe7WgmqeTjLVEY/cxcg0P+Kdbsino+wWx0jgvCk8vwigDdY/MlFkbAPYaMKkdlgjzAHfnyLoVCzIjILDoZnGBP0SWZOy3hfV2ESNmsIXH5LgmTQf2drFtqhYtmMQOPtU2UW/ZXd2AA74MGYaZerYdmxWk3vuHzlUGhqGhhLA2FWLbHXpwM5Y6qcYOAtk30I0jdgXZFZvkTxpRST9GlkI9+EC6hBGhWUjdgTYNvgTnfyyLink/8Olo1VJWWUeIgvK3IwU1tT84ohQX6GFwAnpjXjM5eWcy4Xnsgn1HrJJyKWMMeaDS7bNJEEmrwjUzyOwDUp4BGbf3gAD1G93awwQCgDF+ClzgJjMNv2JgnrhXCL3+Sy8qkkdMaanBbdNZfw5XgQh07qihO9pyTeI3Kw=
